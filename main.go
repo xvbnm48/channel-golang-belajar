@@ -1,8 +1,11 @@
 package main
 
-import "channel/helpers"
+import (
+	"channel/helpers"
+	"log"
+)
 
-const numPool = 10
+const numPool = 1000
 
 func CalculateValue(intChan chan int) {
 	randomNumber := helpers.RandomNumber(numPool)
@@ -13,4 +16,10 @@ func main() {
 	intChan := make(chan int)
 
 	defer close(intChan)
+
+	go CalculateValue(intChan)
+
+	num := <-intChan
+	log.Println(num)
+
 }
